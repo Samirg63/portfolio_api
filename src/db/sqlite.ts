@@ -2,7 +2,7 @@ import { Sequelize } from "sequelize";
 
 const db = new Sequelize({
   dialect: 'sqlite',
-  storage: './api/db/database.sqlite3'
+  storage: './src/db/database.sqlite3'
 });
 
 const connection = async ()=>{
