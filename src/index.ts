@@ -16,7 +16,14 @@ import filesRouter from './routes/filesRoute'
 
 const app = express()
 const port = 3000
-const domain:string[] = ['http://localhost:5173','https://portfolio-bice-five-qjzc2gvgq6.vercel.app','https://portfolio-3b7w9cc2r-samirg63s-projects.vercel.app']
+
+let domain:string[] | string;
+
+if((process.env.DOMAIN as string).includes('<>')){
+    domain = (process.env.DOMAIN as string).split('<>')
+}else{
+    domain = process.env.DOMAIN as string
+}
 
 //middlewares
 app.use(cors({origin:domain}))
