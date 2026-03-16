@@ -33,7 +33,7 @@ export default class authController{
         if((registeredUser.email === data.email) && passwordCompare ){
             //Create a jsonWebToken
             const token = jwt.sign(data,process.env.WEBTOKEN_SECRET as string);
-            return {user:data,token:token};
+            return {token:token};
         }else{
             throw new Error("Credentials doesn't match!")
         }
@@ -69,15 +69,12 @@ export default class authController{
         
     }
 
-   async verifyLogin(token:string){
-    try {
-        jwt.verify(token,process.env.WEBTOKEN_SECRET as string)
-        return true;
-    } catch (error) {
-        throw new Error('Invalid Token')
-    }
-        
-    
+    decodeToken(token:string){     
+        try {    
+          return jwt.verify(token,process.env.WEBTOKEN_SECRET as string) as {email:string,password:string}
+        } catch (error) {
+            throw new Error('Invalid Token')
+        }
    }
 
    async confirmPass(password:string){

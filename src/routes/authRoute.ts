@@ -10,15 +10,31 @@ const controller = new authController()
 
 //login
 authRouter.post('/login',async (req:Request,res:Response)=>{
-    if(!req.body.email || !req.body.password){
-        res.status(400).send({statusCode:"MISSING_DATA",message:'Missing Data'})
-    }
-    try {
-        const log = await controller.login(req.body)
-        res.status(200).send(httpOk(log,200))
+    
+    const token = req.headers.authorization?.split(' ')[1]
+    console.log(req.headers.authorization)
+
+    if((req.body?.email && req.body?.password) || token){
         
-    } catch(e:any){
-        res.status(500).send(httpError(e.message,"CREDENTIALS_DOESN'T_MATCH"))
+        try {
+            let log;
+            if(token){
+                const decode = controller.decodeToken(token)   
+                log = await (controller.login({
+                    email:decode.email,
+                    password:decode.password
+                }))
+                
+            }else{
+                log = await controller.login(req.body)
+            }
+            res.status(200).send(httpOk(log,200))
+            
+        } catch(e:any){
+            res.status(500).send(httpError(e.message,"CREDENTIALS_DOESN'T_MATCH"))
+        }
+    }else{
+     res.status(400).send({statusCode:"MISSING_DATA",message:'Missing Data'})   
     }
 })
 
@@ -34,18 +50,6 @@ authRouter.post('/register',async (req:Request,res:Response)=>{
         
     } catch(e:any){
         res.status(500).send(httpError(e.message,"SERVER_ERROR"))
-    }
-})
-
-//verifyLogin
-authRouter.get('/verify',async (req:Request,res:Response)=>{
-    try {
-        const token = req.headers['authorization']?.split(' ')
-        const verify = await controller.verifyLogin(token![1]);
-        res.status(200).send(httpOk(verify,200))
-
-    } catch (e:any) {
-        res.status(500).send(httpError(e.message,"INVALID_TOKEN"))
     }
 })
 
@@ -93,7 +97,7 @@ authRouter.post('/forgotPassword',async (req:Request,res:Response)=>{
 //verifyToken
 authRouter.post('/verifyToken',async (req:Request,res:Response)=>{
     try {
-        const token = await controller.verifyToken(req.body)
+        const token = await controller.decodeToken(req.body)
         res.status(200).send(httpOk(token,200))
         
     } catch(e:any){
