@@ -124,9 +124,4 @@ authRouter.delete('/token',async (req:Request,res:Response)=>{
     }
 })
 
-
-
-
-
-
 export default authRouter;

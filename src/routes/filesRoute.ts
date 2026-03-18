@@ -53,9 +53,6 @@ filesRouter.post('/destroy/:id',async (req:Request,res:Response)=>{
     
 
     cloudinary.uploader.destroy(req.params.id as string,{resource_type:type}).then((result)=>{
-        if(result.result == 'not found'){
-            throw new Error('FILE_NOT_FOUND')
-        }
         res.status(200).send(httpOk(result,200))
     })
     .catch((err)=>{
@@ -70,10 +67,6 @@ filesRouter.post('/destroy/:id',async (req:Request,res:Response)=>{
 filesRouter.post('/destroyMany',async (req:Request,res:Response)=>{
     const filesToDestroy:{url:string,id:string}[] = req.body.files;
 
-    
-    
-    
-
     try {
         const promisses:Promise<any>[] = []
         filesToDestroy.map((file)=>{
@@ -82,12 +75,7 @@ filesRouter.post('/destroyMany',async (req:Request,res:Response)=>{
         })
         
         await Promise.all(promisses)
-        .then((result)=>{
-                result.map((response)=>{
-                    if(response.result == 'not found'){
-                    throw new Error('FILE_NOT_FOUND')
-                }
-            })    
+        .then((result)=>{ 
             res.status(200).send(httpOk(result,200))
         })
         .catch((err)=>{          
