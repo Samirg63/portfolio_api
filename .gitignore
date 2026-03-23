@@ -1,4 +1,4 @@
 .env
 node_modules
 .vercel
-src/db/database.sqlite3
+src/db/*.sqlite3

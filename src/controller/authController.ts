@@ -105,7 +105,7 @@ export default class authController{
     const token = crypto.randomBytes(32).toString('hex');   
     const expire = new Date(Date.now() + 1000*60*15);
     const saltRounds = 10;
-     const hashedToken = await bcrypt.hash(token,saltRounds)
+    const hashedToken = await bcrypt.hash(token,saltRounds)
     
     const insertToken = await tokensModel.create({
         token:hashedToken,
@@ -119,18 +119,22 @@ export default class authController{
    async verifyToken(body:{token:string,id:string}){
     
     const tokenData = await tokensModel.findOne({where:{id:body.id}});
-    if(
-        await bcrypt.compare(body.token,tokenData!.dataValues.token)  
-    ){
+    if(!tokenData){
+        throw new Error('INVALID_TOKEN')
+    }
+
+    let success = false
+    if(await bcrypt.compare(body.token,tokenData!.dataValues.token)  ){
         if(new Date()  <= tokenData!.dataValues.expire){
-            return {success:true};
+            success = true;
         }else{
             throw new Error('EXPIRED_TOKEN')
-        }
-        
+        }       
     }else{
         throw new Error('INVALID_TOKEN')
     }
+
+    return {success:success}
    }
 
    async destroyToken(){

@@ -12,7 +12,6 @@ const controller = new authController()
 authRouter.post('/login',async (req:Request,res:Response)=>{
     
     const token = req.headers.authorization?.split(' ')[1]
-    console.log(req.headers.authorization)
 
     if((req.body?.email && req.body?.password) || token){
         
@@ -97,12 +96,10 @@ authRouter.post('/forgotPassword',async (req:Request,res:Response)=>{
 //verifyToken
 authRouter.post('/verifyToken',async (req:Request,res:Response)=>{
     try {
-        const token = await controller.decodeToken(req.body)
-        res.status(200).send(httpOk(token,200))
-        
+        const token = await controller.verifyToken(req.body)
+        res.status(200).send(httpOk(token,200))       
     } catch(e:any){
         if(e.message == 'INVALID_TOKEN'){
-            
             res.status(500).send(httpError("Token inválido!",e.message))
         }else if(e.message == 'EXPIRED_TOKEN'){
             
