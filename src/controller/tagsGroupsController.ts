@@ -51,22 +51,21 @@ export default class tagsGroupController{
         try {
             const tagsOnGroup = await tagsModel.findAll({where:{tagGroupId:id}});
             let removeFromProject:Promise<any>[] = [];
-            tagsOnGroup.map((tag)=>{
-                removeFromProject.push(
-                    projectTagsModel.destroy({where:{tagId:tag.dataValues.id}})
-                )
-            })
-                if(await Promise.all(removeFromProject) || removeFromProject.length === 0){
-                    const tagsDestroy = await tagsModel.destroy({where:{tagGroupId:id}})
-                    if(tagsDestroy){
-                        const destroy = await tagsGroupModel.destroy({where:{id:id}})
-                        return destroy;
-                }else{
-                    throw new Error('SERVER_ERROR')
-                }
-            }else{
-                throw new Error('SERVER_ERROR')
+            
+            if(tagsOnGroup.length){
+                tagsOnGroup.map((tag)=>{
+                    removeFromProject.push(
+                        projectTagsModel.destroy({where:{tagId:tag.dataValues.id}})
+                    )
+                })
+                await Promise.all(removeFromProject)
+                await tagsModel.destroy({where:{tagGroupId:id}})                 
             }
+            
+            const destroy = await tagsGroupModel.destroy({where:{id:id}})
+            return destroy;
+
+            
         } catch (error) {
             return {error:error};
         }

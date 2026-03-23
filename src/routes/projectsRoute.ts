@@ -30,8 +30,6 @@ projectsRouter.post('/byTags',async (req:Request,res:Response)=>{
 //create
 projectsRouter.post('/',async (req:Request,res:Response)=>{
     const data = await controller.create(req.body)
-
-    console.log(data)
     if(!(data as any).error){
         res.status(200).send(httpOk(data,200))
     }else{

@@ -53,7 +53,7 @@ export default class hardskillsGroupsController{
         try {
             const skillDestroy = await hardskillsModel.destroy({where:{hardskillsGroupId:id}})    
             const destroy = await hardskillsGroupsModel.destroy({where:{id:id}})
-            
+  
             return {groupDestroy:destroy,skillsDestroy:skillDestroy};      
         } catch (error) {
             return {error:error};

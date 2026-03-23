@@ -122,11 +122,10 @@ export default class projectsController{
 
     async delete(id:string){
         try {
-            const destroyTags = await projectTagsModel.destroy({where:{projectId:id}})
-            if(destroyTags){
-                const destroy = await projectsModel.destroy({where:{id:id}})
-                return destroy; 
-            }
+            await projectTagsModel.destroy({where:{projectId:id}})
+            const destroy = await projectsModel.destroy({where:{id:id}})
+            return destroy; 
+            
         } catch (error) {
             return {error:error};
         }
