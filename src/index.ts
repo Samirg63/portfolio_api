@@ -30,7 +30,7 @@ app.use(cors({origin:domain}))
 app.use(bodyParser.json())
 
 //Database
-import { connection } from './db/sqlite'
+import { connection } from './db/connection'
 connection()
 
 

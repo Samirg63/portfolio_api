@@ -1,5 +1,5 @@
-import { projectTagsModel, tagsGroupModel } from "../db/models";
-import { tagsModel } from "../db/models";
+import { projectTagsModel, tagsGroupModel } from '../db/models';
+import { tagsModel } from '../db/models';
 
 export default class tagsGroupController{
 

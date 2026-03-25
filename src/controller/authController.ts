@@ -5,7 +5,7 @@ import dotenv from 'dotenv'
 
 import userController from './userController'
 import { validateEmail } from '../utils/helpers';
-import { tokensModel, userModel } from "../db/models";
+import { tokensModel, userModel } from '../db/models';
 
 dotenv.config()
 

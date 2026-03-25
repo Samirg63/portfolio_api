@@ -1,4 +1,4 @@
-import { db } from "./sqlite"
+import { db } from "./connection"
 import { DataTypes } from "sequelize"
 
 

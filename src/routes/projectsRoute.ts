@@ -1,8 +1,7 @@
 import { Request, Response, Router } from "express";
 import projectsController from "../controller/projectsController";
-import { projectTagsModel } from "../db/models";
 import { httpOk,httpError } from "../utils/httpResponse";
-
+import db from '../models/index.cjs'
 
 const projectsRouter = Router()
 const controller = new projectsController()
@@ -45,7 +44,7 @@ projectsRouter.delete('/:id',async (req:Request,res:Response)=>{
     const destroy = await controller.delete(req.params.id as string)
     let destroyChildrens = 0;
     if(destroy){
-        destroyChildrens = await projectTagsModel.destroy({where:{projectId:req.params.id}})
+        destroyChildrens = await db.ProjectTags.destroy({where:{projectId:req.params.id}})
     }
     if(!(destroy as any).error){  
         res.status(200).send(httpOk({deletes:destroy,chidrends:destroyChildrens},200))
