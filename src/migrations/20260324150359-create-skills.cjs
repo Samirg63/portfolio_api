@@ -21,13 +21,14 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull:false,
         references:{
-          model:'SkillsGroup',
+          model:'SkillsGroups',
           key:'id'
         },
         onDelete:'CASCADE'
       },
       order: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        defaultValue:1
       },
       createdAt: {
         allowNull: false,

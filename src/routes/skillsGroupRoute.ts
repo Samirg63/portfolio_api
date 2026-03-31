@@ -1,15 +1,15 @@
 import { Request, Response, Router } from "express";
-import hardskillsGroupsController from '../controller/hardskillsGroupsController'
+import SkillsGroupController from "../controller/skillsGroupController";
 import { httpError, httpOk } from "../utils/httpResponse";
 
 
 
-const hardskillsGroupsRouter = Router()
-const controller = new hardskillsGroupsController()
+const skillsGroupRouter = Router()
+const controller = new SkillsGroupController()
 
 //getAll
 
-hardskillsGroupsRouter.get('/',async (req:Request,res:Response)=>{
+skillsGroupRouter.get('/',async (req:Request,res:Response)=>{
     const data = await controller.getAll()
     if(!(data as any).error){
         res.status(200).send(httpOk(data,200))
@@ -19,7 +19,7 @@ hardskillsGroupsRouter.get('/',async (req:Request,res:Response)=>{
 })
 
 //create
-hardskillsGroupsRouter.post('/',async (req:Request,res:Response)=>{
+skillsGroupRouter.post('/',async (req:Request,res:Response)=>{
     const data = await controller.create(req.body)
     if(!(data as any).error){
         res.status(200).send(httpOk(data,200))
@@ -29,12 +29,11 @@ hardskillsGroupsRouter.post('/',async (req:Request,res:Response)=>{
 })
 
 //delete
-hardskillsGroupsRouter.delete('/:id',async (req:Request,res:Response)=>{ 
+skillsGroupRouter.delete('/:id',async (req:Request,res:Response)=>{ 
     if(!req.params.id)
         res.status(500).send('Missing paramas')
 
     const data = await controller.delete(req.params.id as string)
-    console.log(data)
     if(!(data as any).error){
         res.status(200).send(httpOk({deletes:data},200))
     }else{
@@ -43,7 +42,7 @@ hardskillsGroupsRouter.delete('/:id',async (req:Request,res:Response)=>{
 })
 
 //deleteAllFromGroup
-hardskillsGroupsRouter.delete('/allGroup/:id',async (req:Request,res:Response)=>{ 
+skillsGroupRouter.delete('/allGroup/:id',async (req:Request,res:Response)=>{ 
     if(!req.params.id)
         res.status(500).send('Missing paramas')
 
@@ -56,7 +55,7 @@ hardskillsGroupsRouter.delete('/allGroup/:id',async (req:Request,res:Response)=>
 })
 
 //edit
-hardskillsGroupsRouter.put('/:id',async (req:Request,res:Response)=>{
+skillsGroupRouter.put('/:id',async (req:Request,res:Response)=>{
     if(!req.params.id || !req.body)
         res.status(500).send('Missing paramas')
 
@@ -69,4 +68,4 @@ hardskillsGroupsRouter.put('/:id',async (req:Request,res:Response)=>{
     }
 })
 
-export default hardskillsGroupsRouter;
+export default skillsGroupRouter;

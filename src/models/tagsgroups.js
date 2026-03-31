@@ -1,30 +1,28 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
-module.exports = (sequelize, DataTypes) => {
-  class ProjectsTags extends Model {
+import { Model } from "sequelize";
+export default (sequelize, DataTypes) => {
+  class TagsGroups extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-        
+      // define association here
     }
   }
-  ProjectsTags.init({
-    projectId: {
-      type:DataTypes.INTEGER,
+  TagsGroups.init({
+    name: {
+      type:DataTypes.STRING,
       allowNull:false
     },
-    tagId:{
-      type:DataTypes.INTEGER,
+    color: {
+      type:DataTypes.STRING,
       allowNull:false
     }
   }, {
     sequelize,
-    modelName: 'ProjectsTags',
+    modelName: 'TagsGroups',
   });
-  return ProjectsTags;
+  return TagsGroups;
 };

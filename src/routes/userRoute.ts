@@ -19,6 +19,7 @@ userRouter.get('/:key',async(req:Request,res:Response)=>{
 
 //getAll
 userRouter.get('/',async (req:Request,res:Response)=>{
+    
     const data = await controller.getAll()
     if(!(data as any).error){
         res.status(200).send(httpOk(data,200))

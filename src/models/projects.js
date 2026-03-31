@@ -1,8 +1,6 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
-module.exports = (sequelize, DataTypes) => {
+import { Model } from "sequelize";
+export default (sequelize, DataTypes) => {
   class Projects extends Model {
     /**
      * Helper method for defining associations.
@@ -10,13 +8,13 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Projects.associate = (model)=>{
-        Projects.belongsToMany(model.Tags,{
-          through:model.ProjectTags,
-          foreignKey:'ProjectId',
-          otherKey:'TagId'
+      
+        Projects.belongsToMany(models.Tags,{
+          through:models.ProjectsTags,
+          foreignKey:'projectId',
+          otherKey:'tagId',
+          onDelete:'CASCADE'
         })
-      }
     }
   }
   Projects.init({

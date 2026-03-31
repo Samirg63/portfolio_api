@@ -1,11 +1,13 @@
-import {aboutModel} from '../db/models'
+import db from '../models/index.cjs'
+const Abouts = db.Abouts
+
 
 
 export default class aboutController{
 
      async getAll(){
         try {
-            const data = await aboutModel.findAll()
+            const data = await Abouts.findAll()
             return data[0]; 
         } catch (error) {
             return {error:error};
@@ -14,7 +16,7 @@ export default class aboutController{
 
     async getByKey(key:string){
             try {
-                const data = await aboutModel.findAll({
+                const data = await Abouts.findAll({
                     attributes:[key]
                 })
                 return data[0];
@@ -25,7 +27,7 @@ export default class aboutController{
 
     async create(data:any){
         try {
-            const add = await aboutModel.create(data)
+            const add = await Abouts.create(data)
             return add; 
         } catch (error) {
             return {error:error};
@@ -34,7 +36,7 @@ export default class aboutController{
 
     async edit(data:any,id:string){
         try {
-            const edit = await aboutModel.update(data,{where:{id:id}})
+            const edit = await Abouts.update(data,{where:{id:id}})
             return edit; 
         } catch (error) {
             return {error:error};
@@ -43,7 +45,7 @@ export default class aboutController{
 
     async delete(id:string){
         try {
-            const destroy = await aboutModel.destroy({where:{id:id}})
+            const destroy = await Abouts.destroy({where:{id:id}})
             return destroy; 
         } catch (error) {
             return {error:error};
@@ -52,7 +54,7 @@ export default class aboutController{
 
     async deleteImage(id:string){
             try {
-                const destroy = await aboutModel.update({image:''},{where:{id:id}})        
+                const destroy = await Abouts.update({image:''},{where:{id:id}})        
                 return destroy;
             } catch (error) {
                 return {error:error};

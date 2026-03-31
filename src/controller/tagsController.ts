@@ -1,11 +1,14 @@
 import { Op } from 'sequelize';
-import {tagsModel,projectTagsModel, tagsGroupModel} from '../db/models'
+import db from '../models/index.cjs'
+const Tags = db.Tags
+const ProjectTags = db.ProjectTags
+const TagsGroups = db.TagsGroups
 
 export default class tagsController{
 
      async getAll(){
         try {
-            const data = await tagsModel.findAll()
+            const data = await Tags.findAll()
             return data; 
         } catch (error) {
             return {error:error};
@@ -14,7 +17,7 @@ export default class tagsController{
 
     async searchTag(searchQuery:string){
         try {
-            const groups = await tagsGroupModel.findAll();
+            const groups = await TagsGroups.findAll();
             const groupsMap = groups.reduce((acc:any,group:any)=>{
                 if(!acc[group.dataValues.id]){
                     acc[group.dataValues.id] = []
@@ -23,7 +26,7 @@ export default class tagsController{
                 return acc
             },{})
             
-            const data = (await tagsModel.findAll({where:{name:{[Op.like]:`%${searchQuery}%`}}}))
+            const data = (await Tags.findAll({where:{name:{[Op.like]:`%${searchQuery}%`}}}))
             .map((tag)=>(
                 {...tag.dataValues,color:groupsMap[tag.dataValues.tagGroupId][0].color}
             ))
@@ -35,7 +38,7 @@ export default class tagsController{
 
      async getByGroupId(groupId:string){
         try {
-            const data = await tagsModel.findAll({where:{tagGroupId:groupId}})
+            const data = await Tags.findAll({where:{tagGroupId:groupId}})
             return data; 
         } catch (error) {
             return {error:error};
@@ -46,7 +49,7 @@ export default class tagsController{
 
     async create(data:any){
         try {
-            const add = await tagsModel.create(data)
+            const add = await Tags.create(data)
             return add; 
         } catch (error) {
             return {error:error};
@@ -55,7 +58,7 @@ export default class tagsController{
 
     async edit(data:any,id:string){
         try {
-            const edit = await tagsModel.update(data,{where:{id:id}})
+            const edit = await Tags.update(data,{where:{id:id}})
             return edit; 
         } catch (error) {
             return {error:error};
@@ -64,8 +67,8 @@ export default class tagsController{
 
     async delete(id:string){
         try {
-            const destroyChildrens = await projectTagsModel.destroy({where:{tagId:id}})
-            const destroy = await tagsModel.destroy({where:{id:id}})
+            const destroyChildrens = await ProjectTags.destroy({where:{tagId:id}})
+            const destroy = await Tags.destroy({where:{id:id}})
             
             return {destroyed:destroy,childrens:destroyChildrens}; 
         } catch (error) {

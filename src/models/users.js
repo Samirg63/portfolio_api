@@ -1,9 +1,9 @@
 'use strict';
 
-import Model from 'sequelize';
+import { Model } from "sequelize";
 
 export default (sequelize, DataTypes) => {
-  class User extends Model {
+  class Users extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -13,7 +13,8 @@ export default (sequelize, DataTypes) => {
       // define association here
     }
   }
-  User.init({
+
+  Users.init({
     email: {
       type:DataTypes.STRING,
       allowNull:false
@@ -38,7 +39,7 @@ export default (sequelize, DataTypes) => {
     curriculum: DataTypes.STRING
   }, {
     sequelize,
-    modelName: 'User',
+    modelName: 'Users',
   });
-  return User;
+  return Users;
 };

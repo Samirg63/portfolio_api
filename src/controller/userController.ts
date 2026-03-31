@@ -1,11 +1,13 @@
-import {userModel} from '../db/models'
+
+import db from '../models/index.cjs'
+const Users = db.Users
 
 
 export default class userController{
 
      async getAll(){
         try {
-            const data = await userModel.findAll()
+            const data = await Users.findAll()
             return data[0]; 
         } catch (error:any) {
             return {error:error.message};
@@ -14,7 +16,7 @@ export default class userController{
 
     async getByKey(key:string){
         try {
-            const data = await userModel.findAll({
+            const data = await Users.findAll({
                 attributes:[key]
             })
             return data[0];
@@ -25,7 +27,7 @@ export default class userController{
 
     async create(data:any){
         try {
-            const add = await userModel.create(data)
+            const add = await Users.create(data)
             return add; 
         } catch (error) {
             throw error
@@ -34,7 +36,7 @@ export default class userController{
 
     async edit(data:any,id:string){
         try {
-            const edit = await userModel.update(data,{where:{id:id}})
+            const edit = await Users.update(data,{where:{id:id}})
             return edit; 
         } catch (error) {
             return {error:error};
@@ -43,7 +45,7 @@ export default class userController{
 
     async delete(id:string){
         try {
-            const destroy = await userModel.destroy({where:{id:id}})
+            const destroy = await Users.destroy({where:{id:id}})
             return destroy; 
         } catch (error) {
             return {error:error};
@@ -54,9 +56,9 @@ export default class userController{
         try {
             let destroy;
             if(image == 'primary'){
-                destroy = await userModel.update({image:''},{where:{id:id}})
+                destroy = await Users.update({image:''},{where:{id:id}})
             }else{
-                destroy = await userModel.update({secondImage:''},{where:{id:id}})
+                destroy = await Users.update({secondImage:''},{where:{id:id}})
             }
             
             return destroy;

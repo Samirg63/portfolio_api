@@ -2,12 +2,15 @@ import bcrypt from "bcrypt";
 import jwt from 'jsonwebtoken'
 import crypto from 'crypto'
 import dotenv from 'dotenv'
-
+import db from '../models/index.cjs'
 import userController from './userController'
 import { validateEmail } from '../utils/helpers';
-import { tokensModel, userModel } from '../db/models';
-
 dotenv.config()
+
+const Tokens = db.Tokens
+const Users = db.Users
+
+
 
  interface IuserData{
     email:string,
@@ -93,7 +96,7 @@ export default class authController{
                 body.password = await bcrypt.hash(body.password,saltRounds)
             }
                 
-            const edit = await userModel.update(body,{where:{id:registeredUser.id}})
+            const edit = await Users.update(body,{where:{id:registeredUser.id}})
             return edit;
         } catch (error) {
             throw error;
@@ -107,7 +110,7 @@ export default class authController{
     const saltRounds = 10;
     const hashedToken = await bcrypt.hash(token,saltRounds)
     
-    const insertToken = await tokensModel.create({
+    const insertToken = await Tokens.create({
         token:hashedToken,
         expire:expire
     })
@@ -118,7 +121,7 @@ export default class authController{
 
    async verifyToken(body:{token:string,id:string}){
     
-    const tokenData = await tokensModel.findOne({where:{id:body.id}});
+    const tokenData = await Tokens.findOne({where:{id:body.id}});
     if(!tokenData){
         throw new Error('INVALID_TOKEN')
     }
@@ -139,7 +142,7 @@ export default class authController{
 
    async destroyToken(){
     try {
-        const destroy = await tokensModel.destroy({where:{}});
+        const destroy = await Tokens.destroy({where:{}});
         return destroy;
     } catch (error) {
         throw error;

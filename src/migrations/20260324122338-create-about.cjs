@@ -13,7 +13,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       text: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
         allowNull:false
       },
       createdAt: {
@@ -25,6 +25,8 @@ module.exports = {
         type: Sequelize.DATE
       }
     });
+
+    
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('Abouts');

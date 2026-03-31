@@ -1,8 +1,6 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
-module.exports = (sequelize, DataTypes) => {
+import { Model } from "sequelize";
+export default (sequelize, DataTypes) => {
   class Skills extends Model {
     /**
      * Helper method for defining associations.
@@ -10,11 +8,10 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Skills.associate = (model)=>{
-        Skills.belongsTo(model.SkillsGroup,{
+        Skills.belongsTo(models.SkillsGroups,{
           foreignKey:'groupId'
         })
-      }
+      
     }
   }
   Skills.init({
@@ -30,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
       type:DataTypes.INTEGER,
       allowNull:false
     },
-    order: DataTypes.INTEGER
+    order: {type:DataTypes.INTEGER,defaultValue:1}
   }, {
     sequelize,
     modelName: 'Skills',

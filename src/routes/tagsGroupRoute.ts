@@ -1,5 +1,5 @@
 import { Request, Response, Router } from "express";
-import tagsGroupsController from "../controller/tagsGroupsController";
+import tagsGroupsController from "../controller/tagsGroupController";
 import { httpError, httpOk } from "../utils/httpResponse";
 
 

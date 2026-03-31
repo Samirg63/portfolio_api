@@ -41,15 +41,13 @@ projectsRouter.delete('/:id',async (req:Request,res:Response)=>{
     if(!req.params.id)
         res.status(500).send('Missing paramas')
 
+
     const destroy = await controller.delete(req.params.id as string)
-    let destroyChildrens = 0;
-    if(destroy){
-        destroyChildrens = await db.ProjectTags.destroy({where:{projectId:req.params.id}})
-    }
+    
     if(!(destroy as any).error){  
-        res.status(200).send(httpOk({deletes:destroy,chidrends:destroyChildrens},200))
+        res.status(200).send(httpOk({deletes:destroy},200))
     }else{
-        res.status(500).send(httpError({deletes:destroy,chidrends:destroyChildrens},"SERVER_ERROR"))
+        res.status(500).send(httpError({deletes:destroy},"SERVER_ERROR"))
     }
 })
 

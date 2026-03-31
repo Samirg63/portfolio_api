@@ -1,9 +1,7 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
-module.exports = (sequelize, DataTypes) => {
-  class TagsGroup extends Model {
+import { Model } from "sequelize";
+export default (sequelize, DataTypes) => {
+  class Tokens extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -13,18 +11,18 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
-  TagsGroup.init({
-    name: {
+  Tokens.init({
+    token: {
       type:DataTypes.STRING,
       allowNull:false
     },
-    color: {
-      type:DataTypes.STRING,
+    expire: {
+      type:DataTypes.DATE,
       allowNull:false
     }
   }, {
     sequelize,
-    modelName: 'TagsGroup',
+    modelName: 'Tokens',
   });
-  return TagsGroup;
+  return Tokens;
 };

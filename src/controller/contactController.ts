@@ -1,10 +1,12 @@
-import {contactModel} from '../db/models'
+import db from '../models/index.cjs'
+const Contacts = db.Contacts
+
 
 export default class contactController{
 
      async getAll(){
         try {
-            const data = await contactModel.findAll()
+            const data = await Contacts.findAll()
             return data[0]; 
         } catch (error:any) {
             return {error:error.message};
@@ -13,7 +15,7 @@ export default class contactController{
 
     async create(data:any){
         try {
-            const add = await contactModel.create(data)
+            const add = await Contacts.create(data)
             return add; 
         } catch (error) {
             return {error:error};
@@ -22,7 +24,7 @@ export default class contactController{
 
     async edit(data:any,id:string){
         try {
-            const edit = await contactModel.update(data,{where:{id:id}})
+            const edit = await Contacts.update(data,{where:{id:id}})
             return edit; 
         } catch (error) {
             return {error:error};
@@ -31,7 +33,7 @@ export default class contactController{
 
     async delete(id:string){
         try {
-            const destroy = await contactModel.destroy({where:{id:id}})
+            const destroy = await Contacts.destroy({where:{id:id}})
             return destroy; 
         } catch (error) {
             return {error:error};

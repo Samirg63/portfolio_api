@@ -1,10 +1,13 @@
-import {projectTagsModel} from '../db/models'
+
+import db from '../models/index.cjs'
+const ProjectTags = db.ProjectTags
+
 
 export default class projectTagsController{
 
      async getAll(){
         try {
-            const data = await projectTagsModel.findAll()
+            const data = await ProjectTags.findAll()
             return data; 
         } catch (error) {
             return {error:error};
@@ -13,7 +16,7 @@ export default class projectTagsController{
 
     async create(data:any){
         try {
-            const add = await projectTagsModel.create(data);
+            const add = await ProjectTags.create(data);
             return add;
         } catch (error) {
             return {error:error};
@@ -22,7 +25,7 @@ export default class projectTagsController{
 
     async edit(data:any,id:string){
         try {
-            const edit = await projectTagsModel.update(data,{where:{id:id}})
+            const edit = await ProjectTags.update(data,{where:{id:id}})
             return edit; 
         } catch (error) {
             return {error:error};
@@ -31,7 +34,7 @@ export default class projectTagsController{
 
     async delete(id:string){
         try {
-            const destroy = await projectTagsModel.destroy({where:{id:id}})
+            const destroy = await ProjectTags.destroy({where:{id:id}})
             return destroy; 
         } catch (error) {
             return {error:error};

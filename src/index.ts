@@ -5,11 +5,11 @@ import bodyParser from 'body-parser'
 //Routers
 import aboutRouter from './routes/aboutRoute'
 import contactRouter from './routes/contactRoute'
-import hardskillsRouter from './routes/hardskillsRoute'
-import hardskillsGroupsRouter from './routes/hardskillsGroupsRoute'
+import skillsRouter from './routes/skillsRoute'
+import skillsGroupRouter from './routes/skillsGroupRoute'
 import projectsRouter from './routes/projectsRoute'
 import tagsRouter from './routes/tagsRoute'
-import tagsGroupsRouter from './routes/tagsGroupsRoute'
+import tagsGroupsRouter from './routes/tagsGroupRoute'
 import userRouter from './routes/userRoute'
 import authRouter from './routes/authRoute'
 import filesRouter from './routes/filesRoute'
@@ -43,8 +43,8 @@ app.get('/',(req,res)=>{
 //routes
 app.use('/about',aboutRouter)
 app.use('/contact',contactRouter)
-app.use('/hardskills',hardskillsRouter)
-app.use('/hardskillsGroups',hardskillsGroupsRouter)
+app.use('/skills',skillsRouter)
+app.use('/skillsGroup',skillsGroupRouter)
 app.use('/projects',projectsRouter)
 app.use('/tags',tagsRouter)
 app.use('/tagsGroups',tagsGroupsRouter)
