@@ -5,6 +5,8 @@ dotenv.config()
 
 const production = process.env.NODE_ENV === 'production';
 
+
+
 const db =
   production?
   new Sequelize(process.env.DATABASE_URL!,{
@@ -19,18 +21,21 @@ const db =
     }
   })
   :
-    new Sequelize({
-      dialect: 'sqlite',
-      storage: './src/db/database.development.sqlite3',
-      logging:false
-    });
+  new Sequelize({
+    dialect: 'sqlite',
+    storage: './src/db/database.development.sqlite3',
+    logging:false
+  })
+  ;
 
-const connection = async ()=>{
-    try {
-      await db.authenticate();
-    } catch (error) {
-      console.error('Unable to connect to the database:', error);
+    const connection = async ()=>{
+        try {
+          await db.authenticate();         
+        } catch (error) {
+          console.error('Unable to connect to the database:', error);
+          throw error;
+        }
     }
-}
-
-export {connection,db}
+  
+  
+    export {connection,db}

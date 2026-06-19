@@ -8,7 +8,7 @@
   "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "npx sequelize-cli db:migrate  && tsx --watch ./src/index.ts"
+    "dev": "(npx sequelize-cli db:migrate || echo 'Migration failed')  && tsx --watch ./src/index.ts"
   },
   "dependencies": {
     "@types/express": "^5.0.6",
